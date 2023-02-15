@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "680151749830",
+    "project_id": "maccave-app",
+    "storage_bucket": "maccave-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:680151749830:android:035c46493b3b0002d6b3c7",
+        "android_client_info": {
+          "package_name": "com.jhcompany.maccave"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "680151749830-c4kagjbsdenuqu7ulmvfa0l11cppcqos.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.jhcompany.maccave",
+            "certificate_hash": "9d66bc4fbc05dcdabd21fd20e43eb5a6ae43eb34"
+          }
+        },
+        {
+          "client_id": "680151749830-9vaf55358iu7gpdevd1kre77k8qi67s2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCt_PneTe2svL2EseHy-rpYauv69j8wND4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "680151749830-9vaf55358iu7gpdevd1kre77k8qi67s2.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "680151749830-vtk605ctp2dnhqltuh8727omkr8s3d37.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.jhcompany.maccave"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
