@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:maccave/firebaseserver/firestoredata.dart';
 import 'package:maccave/models/drinkmodel.dart';
+import 'package:maccave/widgets/maincacheimage.dart';
 
 class DrinkInfo extends StatefulWidget {
   DrinkInfo({Key? key, required this.drink}) : super(key: key);
@@ -34,10 +35,9 @@ class _DrinkInfoState extends State<DrinkInfo> {
       children: [
         SizedBox(
           width: imgWidth,
-          child: Image.network(
+          child: MainCacheImage(
             // 'https://picsum.photos/seed/${widget.drink.id}/400/400',
-            widget.drink.image,
-            fit: BoxFit.cover,
+            imageUrl: widget.drink.image,
           ),
         ),
         SizedBox(height: 10),
@@ -48,7 +48,7 @@ class _DrinkInfoState extends State<DrinkInfo> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  widget.drink.place,
+                  widget.drink.type,
                   style: const TextStyle(),
                 ),
                 Text(

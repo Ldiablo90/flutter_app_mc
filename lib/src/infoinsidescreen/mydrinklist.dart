@@ -36,34 +36,78 @@ class _MyDrinkListState extends State<MyDrinkList> {
     return Scaffold(
       appBar: CustomAppBar(apptitle: '내술찜리스트'),
       body: loading
-          ? Column(
-              children: [
-                ...drinkList.map<Widget>((drink) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 5,
-                    ),
-                    child: InkWell(
-                      onTap: () {
-                        context.pushNamed(
-                          'drinkitem',
-                          params: {"id": drink.id, 'title': drink.name},
+          ? Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Column(
+                children: [
+                  const SizedBox(height: 10),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    child: Wrap(
+                      alignment: WrapAlignment.spaceBetween,
+                      children: drinkList.map<Widget>((drink) {
+                        return Container(
+                          width: MediaQuery.of(context).size.width * .42,
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 5,
+                            horizontal: 10,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 1,
+                                blurRadius: 5,
+                                offset: const Offset(0, 4),
+                              )
+                            ],
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: InkWell(
+                            onTap: () {
+                              context.pushNamed(
+                                'drinkitem',
+                                params: {"id": drink.id, 'title': drink.name},
+                              );
+                            },
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  height:
+                                      MediaQuery.of(context).size.width * .42,
+                                  child: Image.network(
+                                    drink.image,
+                                    fit: BoxFit.cover,
+                                    loadingBuilder:
+                                        (context, child, loadingProgress) {
+                                      if (loadingProgress == null) {
+                                        return child;
+                                      }
+                                      return SizedBox();
+                                    },
+                                  ),
+                                ),
+                                Text(
+                                  drink.name,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                Text(
+                                  drink.type,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ],
+                            ),
+                          ),
                         );
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(vertical: 5),
-                        decoration: BoxDecoration(border: Border.all(width: 1)),
-                        child: Row(
-                          children: [
-                            Text(drink.name),
-                          ],
-                        ),
-                      ),
+                      }).toList(),
                     ),
-                  );
-                }).toList(),
-              ],
+                  ),
+                ],
+              ),
             )
           : LoadingPage(height: 150),
     );

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
@@ -10,6 +11,7 @@ import 'package:maccave/models/gallerymodel.dart';
 import 'package:maccave/widgets/comment.dart';
 import 'package:maccave/widgets/loddinpage.dart';
 import 'package:maccave/widgets/mainappbar.dart';
+import 'package:maccave/widgets/maincacheimage.dart';
 
 enum MenuItem { delete, edit, share }
 
@@ -108,10 +110,14 @@ class _GalleryReadingState extends State<GalleryReading> {
                                   child: SizedBox(
                                     width: 36,
                                     height: 36,
-                                    child: Image.network(
-                                      usersnapshot.data!.image,
-                                      fit: BoxFit.cover,
+                                    child: MainCacheImage(
+                                      imageUrl: usersnapshot.data!.image,
                                     ),
+
+                                    // child: Image.network(
+                                    //   usersnapshot.data!.image,
+                                    //   fit: BoxFit.cover,
+                                    // ),
                                   ),
                                 ),
                                 const SizedBox(width: 10),
@@ -130,58 +136,93 @@ class _GalleryReadingState extends State<GalleryReading> {
                                   onSelected: (value) {
                                     if (value == MenuItem.share) {
                                     } else if (value == MenuItem.edit) {
-                                      context.pushNamed('galleryeidt',
-                                          params: {"id": widget.id});
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return AlertDialog(
+                                            content:
+                                                const Text('게시물을 수정하시겠습니까?'),
+                                            actions: [
+                                              InkWell(
+                                                onTap: () {
+                                                  context.pop();
+                                                },
+                                                child: const Padding(
+                                                  padding: EdgeInsets.symmetric(
+                                                      vertical: 10,
+                                                      horizontal: 15),
+                                                  child: Text('취소'),
+                                                ),
+                                              ),
+                                              InkWell(
+                                                onTap: () {
+                                                  context.pop();
+                                                  context.pushNamed(
+                                                      'galleryeidt',
+                                                      params: {
+                                                        "id": widget.id
+                                                      });
+                                                },
+                                                child: const Padding(
+                                                  padding: EdgeInsets.symmetric(
+                                                      vertical: 10,
+                                                      horizontal: 15),
+                                                  child: Text('수정'),
+                                                ),
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );
                                     } else if (value == MenuItem.delete) {
                                       showDialog(
-                                          context: context,
-                                          builder: (context) {
-                                            return AlertDialog(
-                                              content:
-                                                  const Text('게시물을 삭제하시겠습니까?'),
-                                              actions: [
-                                                InkWell(
-                                                  onTap: () {
-                                                    context.pop();
-                                                  },
-                                                  child: const Padding(
-                                                    padding:
-                                                        EdgeInsets.symmetric(
-                                                            vertical: 10,
-                                                            horizontal: 15),
-                                                    child: Text('취소'),
-                                                  ),
+                                        context: context,
+                                        builder: (context) {
+                                          return AlertDialog(
+                                            content:
+                                                const Text('게시물을 삭제하시겠습니까?'),
+                                            actions: [
+                                              InkWell(
+                                                onTap: () {
+                                                  context.pop();
+                                                },
+                                                child: const Padding(
+                                                  padding: EdgeInsets.symmetric(
+                                                      vertical: 10,
+                                                      horizontal: 15),
+                                                  child: Text('취소'),
                                                 ),
-                                                InkWell(
-                                                  onTap: () {
-                                                    FireStoreData
-                                                            .removeGalleryItem(
-                                                                widget.id)
-                                                        .then((value) {
-                                                      if (value) {
-                                                        context.pop();
-                                                        context.go('/gallery');
-                                                      } else {
-                                                        Fluttertoast.showToast(
-                                                            msg: "삭제에 실패하였습니다.",
-                                                            backgroundColor:
-                                                                Colors.black,
-                                                            textColor:
-                                                                Colors.white);
-                                                      }
-                                                    });
-                                                  },
-                                                  child: const Padding(
-                                                    padding:
-                                                        EdgeInsets.symmetric(
-                                                            vertical: 10,
-                                                            horizontal: 15),
-                                                    child: Text('삭제'),
-                                                  ),
+                                              ),
+                                              InkWell(
+                                                onTap: () {
+                                                  FireStoreData
+                                                          .removeGalleryItem(
+                                                              widget.id)
+                                                      .then((value) {
+                                                    if (value) {
+                                                      context.pop();
+                                                      context.go('/gallery');
+                                                    } else {
+                                                      Fluttertoast.showToast(
+                                                          msg: "삭제에 실패하였습니다.",
+                                                          backgroundColor:
+                                                              Colors.black,
+                                                          textColor:
+                                                              Colors.white);
+                                                    }
+                                                  });
+                                                },
+                                                child: const Padding(
+                                                  padding: EdgeInsets.symmetric(
+                                                      vertical: 10,
+                                                      horizontal: 15),
+                                                  child: Text('삭제'),
                                                 ),
-                                              ],
-                                            );
-                                          });
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );
                                     }
                                   },
                                   position: PopupMenuPosition.under,
@@ -227,18 +268,7 @@ class _GalleryReadingState extends State<GalleryReading> {
                         scrollPhysics: const BouncingScrollPhysics(),
                       ),
                       items: gallery.images
-                          .map(
-                            (image) => Image.network(
-                              // 'https://picsum.photos/seed/${gallery.id}/400/400',
-                              image,
-                              fit: BoxFit.cover,
-                              loadingBuilder:
-                                  (context, child, loadingProgress) {
-                                if (loadingProgress == null) return child;
-                                return const Icon(Icons.image_outlined);
-                              },
-                            ),
-                          )
+                          .map((image) => MainCacheImage(imageUrl: image))
                           .toList(),
                     ),
                     Padding(

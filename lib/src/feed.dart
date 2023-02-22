@@ -7,6 +7,7 @@ import 'package:maccave/widgets/loddinpage.dart';
 import 'package:maccave/widgets/mainappbar.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:go_router/go_router.dart';
+import 'package:maccave/widgets/maincacheimage.dart';
 
 class FeedScreen extends StatefulWidget {
   const FeedScreen({Key? key}) : super(key: key);
@@ -43,15 +44,9 @@ class _FeedScreenState extends State<FeedScreen> {
                         return CarouselSlider(
                           items: snapshot.data!
                               .map(
-                                (banner) => Image.network(
+                                (banner) => MainCacheImage(
                                   // 'https://picsum.photos/seed/${banner.id}/400/260',
-                                  banner.image,
-                                  fit: BoxFit.cover,
-                                  loadingBuilder:
-                                      (context, child, loadingProgress) {
-                                    if (loadingProgress == null) return child;
-                                    return const Icon(Icons.image_outlined);
-                                  },
+                                  imageUrl: banner.image,
                                 ),
                               )
                               .toList(),

@@ -11,6 +11,7 @@ import 'package:maccave/widgets/blackelevatedbtn.dart';
 import 'package:maccave/widgets/loddinpage.dart';
 import 'package:maccave/widgets/mainappbar.dart';
 import 'package:go_router/go_router.dart';
+import 'package:maccave/widgets/maincacheimage.dart';
 
 class UserEditScreen extends StatefulWidget {
   const UserEditScreen({Key? key, required this.id}) : super(key: key);
@@ -147,10 +148,7 @@ class _UserEditScreenState extends State<UserEditScreen> {
                                         File(editImage),
                                         fit: BoxFit.fill,
                                       )
-                                    : Image.network(
-                                        editImage,
-                                        fit: BoxFit.cover,
-                                      ),
+                                    : MainCacheImage(imageUrl: editImage),
                               ),
                             ),
                             Align(
@@ -158,7 +156,14 @@ class _UserEditScreenState extends State<UserEditScreen> {
                               child: Container(
                                 decoration: BoxDecoration(
                                     color: Colors.white,
-                                    borderRadius: BorderRadius.circular(20)),
+                                    borderRadius: BorderRadius.circular(20),
+                                    boxShadow: [
+                                      BoxShadow(
+                                          color: Colors.grey.withOpacity(.5),
+                                          blurRadius: 1,
+                                          spreadRadius: 1,
+                                          offset: const Offset(0, 0)),
+                                    ]),
                                 padding: const EdgeInsets.all(5),
                                 child: const Icon(
                                   Icons.camera_alt_outlined,
@@ -184,8 +189,17 @@ class _UserEditScreenState extends State<UserEditScreen> {
                     const SizedBox(height: 20),
                     Container(
                       decoration: BoxDecoration(
-                          border: Border.all(width: .5, color: Colors.black),
-                          borderRadius: BorderRadius.circular(5)),
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(5),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 1,
+                            blurRadius: 5,
+                            offset: const Offset(3, 3),
+                          ),
+                        ],
+                      ),
                       padding: const EdgeInsets.symmetric(vertical: 5),
                       child: FormBuilderTextField(
                         name: 'name',
@@ -217,18 +231,17 @@ class _UserEditScreenState extends State<UserEditScreen> {
                       ],
                     ),
                     const SizedBox(height: 20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        MacCaveElevatedButton(
-                          onPressed: () {
-                            editSubmit();
-                          },
-                          color: Colors.black,
-                          child: const Text('수정완료'),
-                        )
-                      ],
-                    )
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      height: 50,
+                      child: MacCaveElevatedButton(
+                        onPressed: () {
+                          editSubmit();
+                        },
+                        color: Colors.black,
+                        child: const Text('수정완료'),
+                      ),
+                    ),
                   ],
                 ),
               ),

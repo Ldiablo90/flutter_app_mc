@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:maccave/firebaseserver/firestoredata.dart';
 import 'package:maccave/widgets/loddinpage.dart';
 import 'package:maccave/widgets/mainappbar.dart';
+import 'package:maccave/widgets/maincacheimage.dart';
 
 class GalleryScreen extends StatefulWidget {
   const GalleryScreen({super.key});
@@ -84,17 +85,9 @@ class _GalleryScreenState extends State<GalleryScreen> {
                                         child: SizedBox(
                                           width: widthsize,
                                           height: widthsize,
-                                          child: Image.network(
+                                          child: MainCacheImage(
                                             // 'https://picsum.photos/seed/${gallery.id}/200/200',
-                                            gallery.images[0],
-                                            fit: BoxFit.cover,
-                                            loadingBuilder: (context, child,
-                                                loadingProgress) {
-                                              if (loadingProgress == null) {
-                                                return child;
-                                              }
-                                              return const Icon(Icons.image);
-                                            },
+                                            imageUrl: gallery.images[0],
                                           ),
                                         ),
                                       ),

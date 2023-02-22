@@ -30,6 +30,7 @@ import 'package:maccave/src/defaultinsidescreen/register.dart';
 import 'package:maccave/src/maccavemain.dart';
 import 'package:maccave/src/raffle.dart';
 import 'package:maccave/widgets/mainnavigation.dart';
+import 'package:kakao_flutter_sdk_common/kakao_flutter_sdk_common.dart';
 
 enum ScreenTransitionType { fade, slide, none }
 
@@ -39,6 +40,9 @@ Future<void> main() async {
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  KakaoSdk.init(
+    nativeAppKey: 'cb28f38ddf8ac43ca8e402a937f9b0b2',
+  );
   runApp(const MyApp());
 }
 

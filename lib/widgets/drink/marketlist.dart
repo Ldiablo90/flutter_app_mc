@@ -43,7 +43,7 @@ class MarketListItem extends StatefulWidget {
 
 class _MarketListItemState extends State<MarketListItem> {
   String releaseDate() {
-    final result = DateFormat('M/d 판매').format(widget.entry.releasedate);
+    final result = DateFormat('M월d일 판매').format(widget.entry.releasedate);
     return result;
   }
 
@@ -54,34 +54,37 @@ class _MarketListItemState extends State<MarketListItem> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 45,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.5),
-            spreadRadius: .5,
-            blurRadius: 3,
-            offset: Offset(1.5, 1.5),
-          )
-        ],
-      ),
-      child: FutureBuilder(
-        future: FireStoreData.getMarketItem(widget.entry.marketid),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Text('${snapshot.data!.name} ${priceFormat()}'),
-                Text(releaseDate()),
-              ],
-            );
-          }
-          return LoadingPage(height: 45);
-        },
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 5),
+      child: Container(
+        height: 45,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: .5,
+              blurRadius: 3,
+              offset: Offset(1.5, 1.5),
+            )
+          ],
+        ),
+        child: FutureBuilder(
+          future: FireStoreData.getMarketItem(widget.entry.marketid),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Text('${snapshot.data!.name} ${priceFormat()}'),
+                  Text(releaseDate()),
+                ],
+              );
+            }
+            return LoadingPage(height: 45);
+          },
+        ),
       ),
     );
   }

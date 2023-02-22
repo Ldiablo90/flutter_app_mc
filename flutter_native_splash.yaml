@@ -1,5 +1,5 @@
 flutter_native_splash:
   color: "#ffffff"
-  image: assets/maccavelogoblack.png
+  image: assets/maccaveicon_black.png
   android_12:
-    image: assets/maccavelogoblack.png
+    image: assets/maccaveicon_black.png

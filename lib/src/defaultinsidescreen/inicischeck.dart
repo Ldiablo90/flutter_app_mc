@@ -72,9 +72,6 @@ class _InicisCheckScreenState extends State<InicisCheckScreen> {
           children: [
             CheckboxListTile(
               onChanged: _onAllCheck,
-              checkboxShape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15),
-              ),
               value: _allCheck,
               controlAffinity: ListTileControlAffinity.leading,
               title: const Text('전체선택'),
@@ -89,9 +86,6 @@ class _InicisCheckScreenState extends State<InicisCheckScreen> {
                       _onOrderCheck(value);
                       setState(() {});
                     },
-                    checkboxShape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
                     value: _privacyCheck,
                     controlAffinity: ListTileControlAffinity.leading,
                     title: const Text('(필수)  개인정보활용동의'),
@@ -115,9 +109,6 @@ class _InicisCheckScreenState extends State<InicisCheckScreen> {
                       _onOrderCheck(value);
                       setState(() {});
                     },
-                    checkboxShape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
                     value: _serviceCheck,
                     controlAffinity: ListTileControlAffinity.leading,
                     title: const Text('(필수)  서비스이용약관'),

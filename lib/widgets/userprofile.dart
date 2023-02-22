@@ -3,6 +3,7 @@ import 'package:maccave/firebaseserver/firestoredata.dart';
 import 'package:maccave/models/usermodel.dart';
 import 'package:go_router/go_router.dart';
 import 'package:maccave/widgets/loddinpage.dart';
+import 'package:maccave/widgets/maincacheimage.dart';
 
 class UserProfile extends StatelessWidget {
   const UserProfile({Key? key, required this.user}) : super(key: key);
@@ -22,10 +23,7 @@ class UserProfile extends StatelessWidget {
                 height: 100,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(128),
-                  child: Image.network(
-                    user.image,
-                    fit: BoxFit.cover,
-                  ),
+                  child: MainCacheImage(imageUrl: user.image),
                 ),
               ),
               Padding(

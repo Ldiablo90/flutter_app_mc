@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:maccave/firebaseserver/firestoredata.dart';
+import 'package:maccave/widgets/blackelevatedbtn.dart';
 import 'package:maccave/widgets/mainappbar.dart';
 
 class CummunityWriting extends StatefulWidget {
@@ -28,7 +29,10 @@ class _CummunityWritingState extends State<CummunityWriting> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(apptitle: ''),
+      appBar: CustomAppBar(
+        apptitle: '커뮤니티 작성',
+        center: true,
+      ),
       resizeToAvoidBottomInset: false,
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
@@ -45,8 +49,17 @@ class _CummunityWritingState extends State<CummunityWriting> {
                   padding:
                       const EdgeInsets.symmetric(vertical: 14, horizontal: 20),
                   decoration: BoxDecoration(
-                      border: Border.all(width: 1),
-                      borderRadius: BorderRadius.circular(5)),
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(5),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 1,
+                        blurRadius: 5,
+                        offset: const Offset(3, 3),
+                      ),
+                    ],
+                  ),
                   child: InkWell(
                     onTap: () {
                       showDialog(
@@ -120,8 +133,17 @@ class _CummunityWritingState extends State<CummunityWriting> {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   decoration: BoxDecoration(
-                      border: Border.all(width: 1),
-                      borderRadius: BorderRadius.circular(5)),
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(5),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 1,
+                        blurRadius: 5,
+                        offset: const Offset(3, 3),
+                      ),
+                    ],
+                  ),
                   child: FormBuilderTextField(
                     name: 'title',
                     decoration: const InputDecoration(
@@ -139,10 +161,19 @@ class _CummunityWritingState extends State<CummunityWriting> {
                 Container(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                  height: 350,
+                  height: 450,
                   decoration: BoxDecoration(
-                      border: Border.all(width: 1),
-                      borderRadius: BorderRadius.circular(5)),
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(5),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 1,
+                        blurRadius: 5,
+                        offset: const Offset(3, 3),
+                      ),
+                    ],
+                  ),
                   child: FormBuilderTextField(
                     name: 'content',
                     keyboardType: TextInputType.multiline,
@@ -158,7 +189,10 @@ class _CummunityWritingState extends State<CummunityWriting> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                ElevatedButton(
+                SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  height: 50,
+                  child: MacCaveElevatedButton(
                     onPressed: () {
                       if (_formKey.currentState!.validate() &&
                           !dropdown.contains('게시판')) {
@@ -173,10 +207,9 @@ class _CummunityWritingState extends State<CummunityWriting> {
                         });
                       }
                     },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.black,
-                    ),
-                    child: Text('업로드하기'))
+                    child: const Text('업로드하기'),
+                  ),
+                ),
               ],
             ),
           ),

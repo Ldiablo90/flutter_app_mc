@@ -140,23 +140,53 @@ class _UserInFoScreenState extends State<UserInFoScreen> {
                   InkWell(
                     child: const Text('로그아웃'),
                     onTap: () {
-                      CustomAuth.signOut().then((model) {
-                        if (model.type) {
-                          context.go('/');
-                        } else {
-                          showDialog(
-                            context: context,
-                            barrierDismissible: true,
-                            builder: (context) {
-                              return AlertDialog(
-                                content: Text(model.messege),
-                              );
-                            },
-                          ).then(
-                            (value) => {if (model.type) {}},
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            content: Text('로그아웃 하시겠습니까?'),
+                            actions: [
+                              InkWell(
+                                onTap: () {
+                                  context.pop();
+                                },
+                                child: const Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 10, horizontal: 15),
+                                  child: Text('취소'),
+                                ),
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  context.pop();
+                                  CustomAuth.signOut().then((model) {
+                                    if (model.type) {
+                                      context.go('/');
+                                    } else {
+                                      showDialog(
+                                        context: context,
+                                        barrierDismissible: true,
+                                        builder: (context) {
+                                          return AlertDialog(
+                                            content: Text(model.messege),
+                                          );
+                                        },
+                                      ).then(
+                                        (value) => {if (model.type) {}},
+                                      );
+                                    }
+                                  });
+                                },
+                                child: const Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 10, horizontal: 15),
+                                  child: Text('로그아웃'),
+                                ),
+                              ),
+                            ],
                           );
-                        }
-                      });
+                        },
+                      );
                     },
                   ),
                 ],

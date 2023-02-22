@@ -60,7 +60,10 @@ class _GalleryEditState extends State<GalleryEdit> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(apptitle: ''),
+      appBar: CustomAppBar(
+        apptitle: '',
+        center: true,
+      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: CustomScrollView(
@@ -77,86 +80,9 @@ class _GalleryEditState extends State<GalleryEdit> {
                     child: !loading
                         ? Column(
                             children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  MacCaveElevatedButton(
-                                    onPressed: () {
-                                      if (_formKey.currentState!.isValid) {
-                                        if (_formKey.currentState!
-                                                    .value['title'] !=
-                                                null &&
-                                            _formKey.currentState!
-                                                    .value['title'] !=
-                                                gallery.title) {
-                                          FireStoreData.updateGallery(
-                                                  widget.id,
-                                                  _formKey.currentState!
-                                                      .value['title'])
-                                              .then(
-                                            (value) {
-                                              if (value) {
-                                                showDialog(
-                                                  context: context,
-                                                  builder: (context) {
-                                                    return AlertDialog(
-                                                      content: const Text(
-                                                          '수정이 완료되었습니다.'),
-                                                      actionsAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      actions: [
-                                                        MacCaveElevatedButton(
-                                                          child:
-                                                              const Text('확인'),
-                                                          onPressed: () {
-                                                            context.pop();
-                                                          },
-                                                        )
-                                                      ],
-                                                    );
-                                                  },
-                                                ).then(
-                                                    (value) => context.goNamed(
-                                                          'galleryreading',
-                                                          params: {
-                                                            "id": gallery.id
-                                                          },
-                                                        ));
-                                              }
-                                            },
-                                          );
-                                        } else {
-                                          showDialog(
-                                            context: context,
-                                            builder: (context) {
-                                              return AlertDialog(
-                                                content:
-                                                    const Text('수정사항이 없습니다.'),
-                                                actionsAlignment:
-                                                    MainAxisAlignment.center,
-                                                actions: [
-                                                  MacCaveElevatedButton(
-                                                    child: const Text('확인'),
-                                                    onPressed: () {
-                                                      context.pop();
-                                                    },
-                                                  ),
-                                                ],
-                                              );
-                                            },
-                                          );
-                                        }
-                                      }
-                                    },
-                                    child: const Text('수정하기'),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 10),
                               SizedBox(
                                 width: MediaQuery.of(context).size.width,
-                                height: 330,
+                                height: MediaQuery.of(context).size.height * .5,
                                 child: CarouselSlider(
                                   items: gallery.images
                                       .map((image) => Image.network(image))
@@ -173,12 +99,21 @@ class _GalleryEditState extends State<GalleryEdit> {
                               ),
                               const SizedBox(height: 10),
                               Container(
-                                height: 250,
+                                height: MediaQuery.of(context).size.height * .2,
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 5),
                                 decoration: BoxDecoration(
-                                    border: Border.all(width: 1),
-                                    borderRadius: BorderRadius.circular(5)),
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(5),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      spreadRadius: 1,
+                                      blurRadius: 5,
+                                      offset: const Offset(3, 3),
+                                    ),
+                                  ],
+                                ),
                                 child: FormBuilderTextField(
                                   controller: _titleController,
                                   keyboardType: TextInputType.multiline,
@@ -193,6 +128,78 @@ class _GalleryEditState extends State<GalleryEdit> {
                                   validator: FormBuilderValidators.compose([
                                     FormBuilderValidators.required(),
                                   ]),
+                                ),
+                              ),
+                              const SizedBox(height: 10),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width,
+                                height: 50,
+                                child: MacCaveElevatedButton(
+                                  onPressed: () {
+                                    if (_formKey.currentState!.isValid) {
+                                      if (_formKey.currentState!
+                                                  .value['title'] !=
+                                              null &&
+                                          _formKey.currentState!
+                                                  .value['title'] !=
+                                              gallery.title) {
+                                        FireStoreData.updateGallery(
+                                                widget.id,
+                                                _formKey.currentState!
+                                                    .value['title'])
+                                            .then(
+                                          (value) {
+                                            if (value) {
+                                              showDialog(
+                                                context: context,
+                                                builder: (context) {
+                                                  return AlertDialog(
+                                                    content: const Text(
+                                                        '수정이 완료되었습니다.'),
+                                                    actionsAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    actions: [
+                                                      MacCaveElevatedButton(
+                                                        child: const Text('확인'),
+                                                        onPressed: () {
+                                                          context.pop();
+                                                        },
+                                                      )
+                                                    ],
+                                                  );
+                                                },
+                                              ).then((value) => context.goNamed(
+                                                    'galleryreading',
+                                                    params: {"id": gallery.id},
+                                                  ));
+                                            }
+                                          },
+                                        );
+                                      } else {
+                                        showDialog(
+                                          context: context,
+                                          builder: (context) {
+                                            return AlertDialog(
+                                              content:
+                                                  const Text('수정사항이 없습니다.'),
+                                              actionsAlignment:
+                                                  MainAxisAlignment.center,
+                                              actions: [
+                                                MacCaveElevatedButton(
+                                                  child: const Text('확인'),
+                                                  onPressed: () {
+                                                    context.pop();
+                                                  },
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                        );
+                                      }
+                                    }
+                                  },
+                                  child: const Text('수정완료'),
                                 ),
                               ),
                             ],

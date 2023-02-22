@@ -7,6 +7,7 @@ import 'package:maccave/models/drinkmodel.dart';
 import 'package:maccave/models/entrymodel.dart';
 import 'package:maccave/models/marketmodel.dart';
 import 'package:maccave/widgets/loddinpage.dart';
+import 'package:maccave/widgets/maincacheimage.dart';
 
 class FeedItem extends StatefulWidget {
   const FeedItem({Key? key, required this.entry}) : super(key: key);
@@ -98,13 +99,9 @@ class _FeedItemState extends State<FeedItem> {
                         child: SizedBox(
                           width: 92,
                           height: 92,
-                          child: Image.network(
+                          child: MainCacheImage(
                             // 'https://picsum.photos/seed/${snapshot.data!.id}/100/100',
-                            drink.image,
-                            fit: BoxFit.cover,
-                            errorBuilder: (context, error, stackTrace) {
-                              return const Icon(Icons.error);
-                            },
+                            imageUrl: drink.image,
                           ),
                         ),
                       ),
@@ -113,7 +110,7 @@ class _FeedItemState extends State<FeedItem> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            drink.place,
+                            drink.type,
                             style: const TextStyle(fontSize: 12),
                           ),
                           SizedBox(

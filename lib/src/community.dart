@@ -3,6 +3,7 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:maccave/firebaseserver/firestoredata.dart';
+import 'package:maccave/models/cummunitymodel.dart';
 import 'package:maccave/widgets/blackelevatedbtn.dart';
 import 'package:maccave/widgets/loddinpage.dart';
 import 'package:maccave/widgets/mainappbar.dart';
@@ -51,7 +52,6 @@ class _CommunityScreenState extends State<CommunityScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final b_width = MediaQuery.of(context).size.width * .15;
     return Scaffold(
       appBar: CustomAppBar(apptitle: '커뮤니티', center: true),
       body: Padding(
@@ -107,116 +107,93 @@ class _CommunityScreenState extends State<CommunityScreen> {
                     .toList(),
               ),
             ),
-            Container(
-              margin: const EdgeInsets.symmetric(vertical: 15),
-              decoration: const BoxDecoration(
-                border: Border(top: BorderSide(width: 1)),
-              ),
-              child: FutureBuilder(
-                future: FireStoreData.getCummunitys(type),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    final pagecount = List.generate(
-                        (snapshot.data!.length / 15).ceil(),
-                        ((index) => index));
-
-                    final lastitem = pagecount.length > 1
-                        ? pagecount.length % 15 == 0
-                            ? startitem + 15
-                            : startitem + pagecount.length % 15
-                        : startitem + snapshot.data!.length;
-
-                    return Column(
-                      children: [
-                        ...snapshot.data!
-                            .sublist(startitem, lastitem)
-                            .asMap()
-                            .entries
-                            .map((cummunity) {
-                          return Container(
-                            decoration: const BoxDecoration(
-                              border: Border(
-                                bottom: BorderSide(width: .5),
-                              ),
-                            ),
-                            padding: const EdgeInsets.symmetric(vertical: 8),
-                            child: InkWell(
-                              onTap: () {
-                                context.pushNamed('cummunityread',
-                                    params: {"id": cummunity.value.id});
-                              },
-                              child: Row(
-                                children: [
-                                  SizedBox(
-                                    width: 40,
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(left: 12),
-                                      child: Text(
-                                          '${snapshot.data!.length - cummunity.key}'),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Text(
-                                      cummunity.value.title,
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ),
-                                  FutureBuilder(
-                                    future: FireStoreData.getCommentsCount(
-                                        cummunity.value.id),
-                                    builder: (context, commentsnapshot) {
-                                      if (commentsnapshot.hasData &&
-                                          commentsnapshot.data! > 0) {
-                                        return Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 5),
-                                          child: Text(
-                                              '(${commentsnapshot.data!})'),
-                                        );
-                                      }
-                                      return const Text('');
-                                    },
-                                  ),
-                                  SizedBox(
-                                    width: 55,
-                                    child: Text(
-                                      dateChange(
-                                        cummunity.value.createdate,
-                                      ),
-                                      textAlign: TextAlign.end,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
-                        }),
-                        Container(
-                          padding: const EdgeInsets.symmetric(vertical: 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: pagecount
-                                .map((count) => Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 10, vertical: 3),
-                                      child: InkWell(
-                                          onTap: () {
-                                            setState(() {
-                                              startitem = count * 15;
-                                            });
-                                          },
-                                          child: Text('${count + 1}')),
-                                    ))
-                                .toList(),
-                          ),
-                        ),
+            const Divider(color: Colors.black),
+            FutureBuilder(
+              future: FireStoreData.getCummunitys(type),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return SingleChildScrollView(
+                    child: PaginatedDataTable(
+                      horizontalMargin: 0,
+                      columnSpacing: 10,
+                      dataRowHeight: 30,
+                      headingRowHeight: 30,
+                      showCheckboxColumn: false,
+                      columns: const <DataColumn>[
+                        DataColumn(label: Center(child: Text('번호'))),
+                        DataColumn(label: Center(child: Text('제목'))),
+                        DataColumn(label: Center(child: Text('일자'))),
                       ],
-                    );
-                  }
-                  return LoadingPage(height: 50);
-                },
-              ),
+                      source: MyData(
+                          data: snapshot.data!.asMap().entries.toList(),
+                          context: context),
+                    ),
+                    // child: DataTable(
+                    //   horizontalMargin: 0,
+                    //   columnSpacing: 10,
+                    //   dataRowHeight: 30,
+                    //   headingRowHeight: 30,
+                    //   showCheckboxColumn: false,
+                    //   columns: const <DataColumn>[
+                    //     DataColumn(label: Center(child: Text('번호'))),
+                    //     DataColumn(label: Center(child: Text('제목'))),
+                    //     DataColumn(label: Center(child: Text('일자'))),
+                    //   ],
+                    //   rows: <DataRow>[
+                    //     ...snapshot.data!.asMap().entries.map<DataRow>(
+                    //           (cummu) => DataRow(
+                    //             onSelectChanged: (value) {
+                    //               context.pushNamed('cummunityread',
+                    //                   params: {"id": cummu.value.id});
+                    //             },
+                    //             cells: [
+                    //               DataCell(Center(
+                    //                 child: Text(
+                    //                     '${snapshot.data!.length - cummu.key}'),
+                    //               )),
+                    //               DataCell(
+                    //                 SizedBox(
+                    //                     width:
+                    //                         MediaQuery.of(context).size.width *
+                    //                             .60,
+                    //                     child: Row(
+                    //                       mainAxisAlignment:
+                    //                           MainAxisAlignment.spaceBetween,
+                    //                       children: [
+                    //                         Text(cummu.value.title),
+                    //                         FutureBuilder(
+                    //                           future: FireStoreData
+                    //                               .getCommentsCount(
+                    //                                   cummu.value.id),
+                    //                           builder:
+                    //                               (context, commentsnapshot) {
+                    //                             if (commentsnapshot.hasData &&
+                    //                                 commentsnapshot.data! > 0) {
+                    //                               return Padding(
+                    //                                 padding: const EdgeInsets
+                    //                                         .symmetric(
+                    //                                     horizontal: 5),
+                    //                                 child: Text(
+                    //                                     '(${commentsnapshot.data!})'),
+                    //                               );
+                    //                             }
+                    //                             return const Text('');
+                    //                           },
+                    //                         ),
+                    //                       ],
+                    //                     )),
+                    //               ),
+                    //               DataCell(
+                    //                   Text(dateChange(cummu.value.createdate))),
+                    //             ],
+                    //           ),
+                    //         ),
+                    //   ],
+                    // ),
+                  );
+                }
+                return LoadingPage(height: 200);
+              },
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10),
@@ -236,5 +213,60 @@ class _CommunityScreenState extends State<CommunityScreen> {
         ),
       ),
     );
+  }
+}
+
+class MyData extends DataTableSource {
+  MyData({required this.data, required this.context}) : super();
+  List<MapEntry<int, CummunityModel>> data;
+  BuildContext context;
+  // Generate some made-up data
+  // final List<Map<String, dynamic>> _data = List.generate(
+  //     200, (index) => {"id": index, "title": "Item $index", "price": 15000});
+
+  @override
+  bool get isRowCountApproximate => false;
+  @override
+  int get rowCount => data.length;
+  @override
+  int get selectedRowCount => 0;
+  @override
+  DataRow getRow(int index) {
+    return DataRow(
+        onSelectChanged: (value) {
+          context
+              .pushNamed('cummunityread', params: {"id": data[index].value.id});
+        },
+        cells: [
+          DataCell(Center(
+            child: Text('${data.length - data[index].key}'),
+          )),
+          DataCell(
+            SizedBox(
+                width: MediaQuery.of(context).size.width * 0.60,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(data[index].value.title),
+                    FutureBuilder(
+                      future:
+                          FireStoreData.getCommentsCount(data[index].value.id),
+                      builder: (context, commentsnapshot) {
+                        if (commentsnapshot.hasData &&
+                            commentsnapshot.data! > 0) {
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 5),
+                            child: Text('(${commentsnapshot.data!})'),
+                          );
+                        }
+                        return const Text('');
+                      },
+                    ),
+                  ],
+                )),
+          ),
+          DataCell(Text(
+              DateFormat('yy.MM.dd').format(data[index].value.createdate))),
+        ]);
   }
 }

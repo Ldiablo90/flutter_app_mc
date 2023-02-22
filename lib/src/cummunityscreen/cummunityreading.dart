@@ -11,6 +11,8 @@ import 'package:maccave/widgets/comment.dart';
 import 'package:maccave/widgets/loddinpage.dart';
 import 'package:maccave/widgets/mainappbar.dart';
 
+enum MenuItem { delete, edit, share }
+
 class CummunityReading extends StatefulWidget {
   const CummunityReading({super.key, required this.id});
   final String id;
@@ -95,6 +97,114 @@ class _CummunityReadingState extends State<CummunityReading> {
                           ),
                         ),
                       ),
+                      PopupMenuButton(
+                        icon: const Icon(Icons.more_horiz),
+                        onSelected: (value) {
+                          if (value == MenuItem.share) {
+                          } else if (value == MenuItem.edit) {
+                            showDialog(
+                              context: context,
+                              barrierDismissible: true,
+                              builder: (context) {
+                                return AlertDialog(
+                                  content: const Text('게시물을 수정하시겠습니까?'),
+                                  actions: [
+                                    InkWell(
+                                      onTap: () {
+                                        context.pop();
+                                      },
+                                      child: const Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            vertical: 10, horizontal: 10),
+                                        child: Text('취소'),
+                                      ),
+                                    ),
+                                    InkWell(
+                                      onTap: () {
+                                        context.pop();
+                                        context.pushNamed('cummunityeidt',
+                                            params: {"id": cummunity.id});
+                                      },
+                                      child: const Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            vertical: 10, horizontal: 10),
+                                        child: Text('수정하기'),
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          } else if (value == MenuItem.delete) {
+                            showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                  content: const Text('게시물을 삭제하시겠습니까?'),
+                                  actions: [
+                                    InkWell(
+                                      onTap: () {
+                                        context.pop();
+                                      },
+                                      child: const Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            vertical: 10, horizontal: 10),
+                                        child: Text('취소'),
+                                      ),
+                                    ),
+                                    InkWell(
+                                      onTap: () {
+                                        FireStoreData.removeCummunity(
+                                                cummunity.id)
+                                            .then((value) {
+                                          if (value) {
+                                            context.pop();
+                                            context.go('/community');
+                                          } else {
+                                            Fluttertoast.showToast(
+                                                msg: "삭제에 실패하였습니다.",
+                                                backgroundColor: Colors.black,
+                                                textColor: Colors.white);
+                                          }
+                                        });
+                                      },
+                                      child: const Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            vertical: 10, horizontal: 10),
+                                        child: Text('삭제'),
+                                      ),
+                                    ),
+                                  ]),
+                              barrierDismissible: true,
+                            );
+                          }
+                        },
+                        position: PopupMenuPosition.under,
+                        itemBuilder: (context) {
+                          if (cummunityOrner) {
+                            return [
+                              const PopupMenuItem(
+                                value: MenuItem.share,
+                                child: Text('공유'),
+                              ),
+                              const PopupMenuItem(
+                                value: MenuItem.edit,
+                                child: Text('수정'),
+                              ),
+                              const PopupMenuItem(
+                                value: MenuItem.delete,
+                                child: Text('삭제'),
+                              ),
+                            ];
+                          } else {
+                            return [
+                              const PopupMenuItem(
+                                value: MenuItem.share,
+                                child: Text('공유'),
+                              )
+                            ];
+                          }
+                        },
+                      ),
                     ],
                   ),
                   FutureBuilder(
@@ -134,101 +244,6 @@ class _CummunityReadingState extends State<CummunityReading> {
                   Row(
                     children: [Text(cummunity.content)],
                   ),
-                  cummunityOrner
-                      ? Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            MacCaveElevatedButton(
-                              onPressed: () {
-                                showDialog(
-                                  context: context,
-                                  barrierDismissible: true,
-                                  builder: (context) {
-                                    return AlertDialog(
-                                      content: const Text('게시물을 수정하시겠습니까?'),
-                                      actions: [
-                                        InkWell(
-                                          onTap: () {
-                                            context.pop();
-                                          },
-                                          child: const Padding(
-                                            padding: EdgeInsets.symmetric(
-                                                vertical: 10, horizontal: 10),
-                                            child: Text('취소'),
-                                          ),
-                                        ),
-                                        InkWell(
-                                          onTap: () {
-                                            context.pop();
-                                            context.pushNamed('cummunityeidt',
-                                                params: {"id": cummunity.id});
-                                          },
-                                          child: const Padding(
-                                            padding: EdgeInsets.symmetric(
-                                                vertical: 10, horizontal: 10),
-                                            child: Text('수정하기'),
-                                          ),
-                                        ),
-                                      ],
-                                    );
-                                  },
-                                );
-                              },
-                              child: const Text('수정하기'),
-                            ),
-                            const SizedBox(width: 10),
-                            MacCaveElevatedButton(
-                              onPressed: () {
-                                showDialog(
-                                    context: context,
-                                    builder: (context) => AlertDialog(
-                                            content:
-                                                const Text('게시물을 삭제하시겠습니까?'),
-                                            actions: [
-                                              InkWell(
-                                                onTap: () {
-                                                  context.pop();
-                                                },
-                                                child: const Padding(
-                                                  padding: EdgeInsets.symmetric(
-                                                      vertical: 10,
-                                                      horizontal: 10),
-                                                  child: Text('취소'),
-                                                ),
-                                              ),
-                                              InkWell(
-                                                onTap: () {
-                                                  FireStoreData.removeCummunity(
-                                                          cummunity.id)
-                                                      .then((value) {
-                                                    if (value) {
-                                                      context.pop();
-                                                      context.go('/community');
-                                                    } else {
-                                                      Fluttertoast.showToast(
-                                                          msg: "삭제에 실패하였습니다.",
-                                                          backgroundColor:
-                                                              Colors.black,
-                                                          textColor:
-                                                              Colors.white);
-                                                    }
-                                                  });
-                                                },
-                                                child: const Padding(
-                                                  padding: EdgeInsets.symmetric(
-                                                      vertical: 10,
-                                                      horizontal: 10),
-                                                  child: Text('삭제'),
-                                                ),
-                                              ),
-                                            ]),
-                                    barrierDismissible: true);
-                              },
-                              child: const Text('삭제하기'),
-                            ),
-                          ],
-                        )
-                      : Row(),
                   CommentWidget(id: cummunity.id),
                 ],
               ),

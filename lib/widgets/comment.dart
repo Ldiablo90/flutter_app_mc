@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:maccave/firebaseserver/firestoredata.dart';
 import 'package:maccave/models/commentmodel.dart';
 import 'package:maccave/widgets/loddinpage.dart';
+import 'package:maccave/widgets/maincacheimage.dart';
 
 class CommentWidget extends StatefulWidget {
   const CommentWidget({Key? key, required this.id}) : super(key: key);
@@ -125,14 +126,12 @@ class _CommentWidgetItemState extends State<CommentWidgetItem> {
                   height: 30,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(20),
-                    child: Image.network(
-                      snapshot.data!.image,
-                      fit: BoxFit.cover,
+                    child: MainCacheImage(
+                      imageUrl: snapshot.data!.image,
                     ),
                   ),
                 ),
                 const SizedBox(width: 10),
-
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -153,12 +152,6 @@ class _CommentWidgetItemState extends State<CommentWidgetItem> {
                     ),
                   ],
                 ),
-
-                // SizedBox(
-                //   child: InkWell(
-                //     child: Icon(Icons.thumb_up_alt),
-                //   ),
-                // ),
               ],
             ),
           );

@@ -57,6 +57,15 @@ dependencies:
   image_cropper: ^3.0.1
   permission_handler: ^10.2.0
   open_settings: ^2.0.2
+  dio: ^4.0.0
+  json_annotation: ^4.8.0
+  platform: ^3.1.0
+  crypto: ^3.0.2
+  encrypt: ^5.0.1
+  shared_preferences: ^2.0.17
+  kakao_flutter_sdk_user: ^1.4.0
+  kakao_flutter_sdk_share: ^1.4.0
+  cached_network_image: ^3.2.3
 
 dev_dependencies:
   flutter_test:
@@ -87,6 +96,8 @@ flutter:
     - assets/googlelogo.png
     - assets/maccavelogoblenk.png
     - assets/maccavelogoblack.png
+    - assets/maccaveicon_black.png
+    - assets/maccaveicon_white.png
   
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

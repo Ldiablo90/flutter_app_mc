@@ -312,13 +312,13 @@ class FireStoreData {
     return null;
   }
 
-  static Future<List<CummunityModel>> getCummunitys(String tyep) async {
+  static Future<List<CummunityModel>> getCummunitys(String type) async {
     List<CummunityModel> cummunitysInstances = [];
     QuerySnapshot<Map<String, dynamic>> querySnapshot;
 
-    if (tyep != '전체글') {
+    if (type != '전체글') {
       querySnapshot = await _cummunityColection
-          .where('type', isEqualTo: tyep)
+          .where('type', isEqualTo: type)
           .orderBy('createdate', descending: true)
           .get();
     } else {

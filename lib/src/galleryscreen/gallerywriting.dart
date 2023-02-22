@@ -5,6 +5,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:maccave/firebaseserver/firestoredata.dart';
+import 'package:maccave/widgets/blackelevatedbtn.dart';
 import 'package:maccave/widgets/loddinpage.dart';
 import 'package:maccave/widgets/mainappbar.dart';
 import 'package:go_router/go_router.dart';
@@ -62,7 +63,10 @@ class _GalleryWritingState extends State<GalleryWriting> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(apptitle: ''),
+      appBar: CustomAppBar(
+        apptitle: '사진올리기',
+        center: true,
+      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: CustomScrollView(
@@ -78,39 +82,26 @@ class _GalleryWritingState extends State<GalleryWriting> {
                     },
                     child: Column(
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            ElevatedButton(
-                              onPressed: () {
-                                if (_formKey.currentState!.isValid &&
-                                    _imageFile.isNotEmpty) {
-                                  sendGalleryData();
-                                  showDialog(
-                                    context: context,
-                                    barrierDismissible: false,
-                                    builder: (context) {
-                                      return AlertDialog(
-                                        content: LoadingPage(height: 100),
-                                      );
-                                    },
-                                  );
-                                }
-                              },
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.black),
-                              child: const Text('업로드'),
-                            ),
-                          ],
-                        ),
                         const SizedBox(height: 10),
                         InkWell(
                           onTap: () {
                             setImagePicker();
                           },
-                          child: SizedBox(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(5),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  spreadRadius: 1,
+                                  blurRadius: 5,
+                                  offset: const Offset(3, 3),
+                                ),
+                              ],
+                            ),
                             width: MediaQuery.of(context).size.width,
-                            height: 330,
+                            height: MediaQuery.of(context).size.height * .5,
                             child: _imageFile.isNotEmpty
                                 ? CarouselSlider(
                                     items: _imageFile
@@ -125,27 +116,29 @@ class _GalleryWritingState extends State<GalleryWriting> {
                                           const BouncingScrollPhysics(),
                                     ),
                                   )
-                                : Container(
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                          width: 1.5, color: Colors.grey),
-                                      borderRadius: BorderRadius.circular(5),
-                                    ),
-                                    child: const Icon(
-                                      Icons.add_a_photo_outlined,
-                                      size: 36,
-                                      color: Colors.grey,
-                                    ),
+                                : const Icon(
+                                    Icons.add_a_photo_outlined,
+                                    size: 36,
+                                    color: Colors.grey,
                                   ),
                           ),
                         ),
                         const SizedBox(height: 10),
                         Container(
-                          height: 250,
+                          height: MediaQuery.of(context).size.height * .2,
                           padding: const EdgeInsets.symmetric(vertical: 5),
                           decoration: BoxDecoration(
-                              border: Border.all(width: 1),
-                              borderRadius: BorderRadius.circular(5)),
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(5),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 1,
+                                blurRadius: 5,
+                                offset: const Offset(3, 3),
+                              ),
+                            ],
+                          ),
                           child: FormBuilderTextField(
                             keyboardType: TextInputType.multiline,
                             maxLines: 15,
@@ -160,6 +153,33 @@ class _GalleryWritingState extends State<GalleryWriting> {
                               FormBuilderValidators.required(),
                             ]),
                           ),
+                        ),
+                        const SizedBox(height: 10),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width,
+                          height: 50,
+                          child: MacCaveElevatedButton(
+                            child: const Text('등록'),
+                            onPressed: () {
+                              if (_formKey.currentState!.isValid &&
+                                  _imageFile.isNotEmpty) {
+                                sendGalleryData();
+                                showDialog(
+                                  context: context,
+                                  barrierDismissible: false,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      content: LoadingPage(height: 100),
+                                    );
+                                  },
+                                );
+                              }
+                            },
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [],
                         ),
                       ],
                     ),
