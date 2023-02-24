@@ -9,7 +9,7 @@ class SosialLoginWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 170,
+      height: 240,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -37,6 +37,19 @@ class SosialLoginWidget extends StatelessWidget {
               onTap: () {
                 context.pushNamed('privacychack',
                     extra: CustomAuth.signInKakao);
+              },
+            ),
+          ),
+          SizedBox(
+            width: iconwidth,
+            child: InkWell(
+              child: Image.asset(
+                'assets/kakaologo.png',
+                fit: BoxFit.cover,
+              ),
+              onTap: () {
+                context.pushNamed('privacychack',
+                    extra: CustomAuth.signInFacebook);
               },
             ),
           ),

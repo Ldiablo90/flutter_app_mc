@@ -1,7 +1,7 @@
 {
   "file_generated_by": "FlutterFire CLI",
   "purpose": "FirebaseAppID & ProjectID for this Firebase app in this directory",
-  "GOOGLE_APP_ID": "1:680151749830:ios:3b5ff120d46bb595d6b3c7",
-  "FIREBASE_PROJECT_ID": "maccave-app",
-  "GCM_SENDER_ID": "680151749830"
+  "GOOGLE_APP_ID": "1:1038660924416:ios:66f19c96bdd40bd33a14e5",
+  "FIREBASE_PROJECT_ID": "maccaveapp",
+  "GCM_SENDER_ID": "1038660924416"
 }

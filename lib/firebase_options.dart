@@ -44,42 +44,40 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyDzhUqitS_UrN9N6G8-85I2UjrDFSCSo9I',
-    appId: '1:680151749830:web:7676410143f952edd6b3c7',
-    messagingSenderId: '680151749830',
-    projectId: 'maccave-app',
-    authDomain: 'maccave-app.firebaseapp.com',
-    storageBucket: 'maccave-app.appspot.com',
-    measurementId: 'G-SWX7EYKGW4',
+    apiKey: 'AIzaSyBoYdVIHqjRUBKvttomU0t6kVkayQMV35U',
+    appId: '1:1038660924416:web:bd288744c3face003a14e5',
+    messagingSenderId: '1038660924416',
+    projectId: 'maccaveapp',
+    authDomain: 'maccaveapp.firebaseapp.com',
+    storageBucket: 'maccaveapp.appspot.com',
+    measurementId: 'G-6QX2PF3P0Y',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCt_PneTe2svL2EseHy-rpYauv69j8wND4',
-    appId: '1:680151749830:android:035c46493b3b0002d6b3c7',
-    messagingSenderId: '680151749830',
-    projectId: 'maccave-app',
-    storageBucket: 'maccave-app.appspot.com',
+    apiKey: 'AIzaSyADdkN8zl5lQv-njhTJjCyZpMCm8UweyPY',
+    appId: '1:1038660924416:android:087a735d715922633a14e5',
+    messagingSenderId: '1038660924416',
+    projectId: 'maccaveapp',
+    storageBucket: 'maccaveapp.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCQCk6OBy9zfQ6h72EEoL40bgGlDGJQE1w',
-    appId: '1:680151749830:ios:3b5ff120d46bb595d6b3c7',
-    messagingSenderId: '680151749830',
-    projectId: 'maccave-app',
-    storageBucket: 'maccave-app.appspot.com',
-    androidClientId: '680151749830-6740fub5pl1c7mlvstaff0omil9l2qej.apps.googleusercontent.com',
-    iosClientId: '680151749830-vtk605ctp2dnhqltuh8727omkr8s3d37.apps.googleusercontent.com',
+    apiKey: 'AIzaSyBJ6VWnjrhvqj13UURn5fjjKWAvKYzkKHQ',
+    appId: '1:1038660924416:ios:66f19c96bdd40bd33a14e5',
+    messagingSenderId: '1038660924416',
+    projectId: 'maccaveapp',
+    storageBucket: 'maccaveapp.appspot.com',
+    iosClientId: '1038660924416-nr6b3evrpglkudb9irufunvrjbe1bemt.apps.googleusercontent.com',
     iosBundleId: 'com.jhcompany.maccave',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyCQCk6OBy9zfQ6h72EEoL40bgGlDGJQE1w',
-    appId: '1:680151749830:ios:3b5ff120d46bb595d6b3c7',
-    messagingSenderId: '680151749830',
-    projectId: 'maccave-app',
-    storageBucket: 'maccave-app.appspot.com',
-    androidClientId: '680151749830-6740fub5pl1c7mlvstaff0omil9l2qej.apps.googleusercontent.com',
-    iosClientId: '680151749830-vtk605ctp2dnhqltuh8727omkr8s3d37.apps.googleusercontent.com',
+    apiKey: 'AIzaSyBJ6VWnjrhvqj13UURn5fjjKWAvKYzkKHQ',
+    appId: '1:1038660924416:ios:66f19c96bdd40bd33a14e5',
+    messagingSenderId: '1038660924416',
+    projectId: 'maccaveapp',
+    storageBucket: 'maccaveapp.appspot.com',
+    iosClientId: '1038660924416-nr6b3evrpglkudb9irufunvrjbe1bemt.apps.googleusercontent.com',
     iosBundleId: 'com.jhcompany.maccave',
   );
 }
