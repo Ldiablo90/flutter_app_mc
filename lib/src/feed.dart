@@ -1,6 +1,7 @@
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:flutter/material.dart';
+import 'package:maccave/firebaseserver/firebaseauth.dart';
 import 'package:maccave/firebaseserver/firestoredata.dart';
 import 'package:maccave/widgets/feed/feeditem.dart';
 import 'package:maccave/widgets/loddinpage.dart';
@@ -19,6 +20,13 @@ class FeedScreen extends StatefulWidget {
 class _FeedScreenState extends State<FeedScreen> {
   String timeNowtoString() {
     final nowtime = DateFormat('M월 d일').format(DateTime.now());
+    return nowtime;
+  }
+
+  String timeTomorrowtoString() {
+    final today = DateTime.now();
+    final tomorrow = today.add(const Duration(days: 1));
+    final nowtime = DateFormat('M월 d일').format(tomorrow);
     return nowtime;
   }
 
@@ -65,7 +73,7 @@ class _FeedScreenState extends State<FeedScreen> {
                     },
                   ),
                   FutureBuilder(
-                    future: FireStoreData.getEntrys(),
+                    future: FireStoreData.getEntryTosDate(''),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         return Padding(
@@ -100,17 +108,62 @@ class _FeedScreenState extends State<FeedScreen> {
                                     padding: const EdgeInsets.symmetric(
                                         vertical: 10),
                                     child: FeedItem(entry: entry),
-                                  ))
+                                  )),
+                              snapshot.data!.isEmpty
+                                  ? Text('오늘의 정보가 없습니다.')
+                                  : SizedBox()
                             ],
                           ),
                         );
                       }
-                      return const SizedBox(
-                        height: 250,
-                        child: Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                      );
+                      return LoadingPage(height: 250);
+                    },
+                  ),
+                  FutureBuilder(
+                    future: FireStoreData.getEntryTosDate('tomorrow'),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 25, vertical: 10),
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Text('${timeTomorrowtoString()}~ 예정 정보 '),
+                                      Text(
+                                        '(${snapshot.data!.length})',
+                                        style:
+                                            TextStyle(color: Colors.grey[600]),
+                                      )
+                                    ],
+                                  ),
+                                  InkWell(
+                                    onTap: () {
+                                      context.push('/feed/entrylist');
+                                    },
+                                    child: const Icon(Icons.tune),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 10),
+                              ...snapshot.data!.map<Widget>((entry) => Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10),
+                                    child: FeedItem(entry: entry),
+                                  )),
+                              snapshot.data!.isEmpty
+                                  ? Text('예정된 정보가 없습니다.')
+                                  : SizedBox()
+                            ],
+                          ),
+                        );
+                      }
+                      return LoadingPage(height: 250);
                     },
                   ),
                   Column(

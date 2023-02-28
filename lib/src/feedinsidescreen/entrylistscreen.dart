@@ -18,7 +18,7 @@ class _EntryListScreenState extends State<EntryListScreen> {
   late List<EntryModel> entryList;
   bool loadding = true;
   Future<void> setEntryListData() async {
-    entryList = await FireStoreData.getEntrys();
+    entryList = await FireStoreData.getEntrysToTypeOrDrink();
     loadding = false;
     setState(() {});
   }

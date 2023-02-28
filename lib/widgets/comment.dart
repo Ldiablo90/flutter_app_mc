@@ -104,9 +104,9 @@ class CommentWidgetItem extends StatefulWidget {
 }
 
 class _CommentWidgetItemState extends State<CommentWidgetItem> {
-  String dateinfoFormat(String userName) {
-    final result = DateFormat('${userName}   yyyy.MM.dd hh:mm')
-        .format(widget.model.createdate!);
+  String dateinfoFormat() {
+    final result =
+        DateFormat('yyyy.MM.dd hh:mm').format(widget.model.createdate!);
     return result;
   }
 
@@ -136,10 +136,8 @@ class _CommentWidgetItemState extends State<CommentWidgetItem> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      dateinfoFormat(snapshot.data!.name),
-                      style: const TextStyle(
-                        fontSize: 12,
-                      ),
+                      '${snapshot.data!.name}    ${dateinfoFormat()}',
+                      style: const TextStyle(fontSize: 12),
                     ),
                     SizedBox(
                       width: MediaQuery.of(context).size.width * .7,

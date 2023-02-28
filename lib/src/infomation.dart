@@ -59,51 +59,6 @@ class _UserInFoScreenState extends State<UserInFoScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  // MacCaveElevatedButton(
-                  //   child: const Text('회원탈퇴'),
-                  //   onPressed: () {
-                  //     CustomAuth.withdrawal().then((model) {
-                  //       if (model.type) {
-                  //         context.go('/');
-                  //       } else {
-                  //         showDialog(
-                  //           context: context,
-                  //           barrierDismissible: true,
-                  //           builder: (context) {
-                  //             return AlertDialog(
-                  //               content: Text(model.messege),
-                  //             );
-                  //           },
-                  //         ).then(
-                  //           (value) => {if (model.type) {}},
-                  //         );
-                  //       }
-                  //     });
-                  //   },
-                  // ),
-                  // const SizedBox(width: 10),
-                  // MacCaveElevatedButton(
-                  //   onPressed: () {
-                  //     CustomAuth.signOut().then((model) {
-                  //       if (model.type) {
-                  //         context.go('/');
-                  //       } else {
-                  //         showDialog(
-                  //           context: context,
-                  //           barrierDismissible: true,
-                  //           builder: (context) {
-                  //             return AlertDialog(
-                  //               content: Text(model.messege),
-                  //             );
-                  //           },
-                  //         ).then(
-                  //           (value) => {if (model.type) {}},
-                  //         );
-                  //       }
-                  //     });
-                  //   },
-                  //   child: const Text('로그아웃'),
-                  // ),
                   InkWell(
                     child: const Text('회원탈퇴'),
                     onTap: () {
@@ -118,23 +73,6 @@ class _UserInFoScreenState extends State<UserInFoScreen> {
                           );
                         },
                       );
-                      // CustomAuth.withdrawal().then((model) {
-                      //   if (model.type) {
-                      //     context.go('/');
-                      //   } else {
-                      //     showDialog(
-                      //       context: context,
-                      //       barrierDismissible: true,
-                      //       builder: (context) {
-                      //         return AlertDialog(
-                      //           content: Text(model.messege),
-                      //         );
-                      //       },
-                      //     ).then(
-                      //       (value) => {if (model.type) {}},
-                      //     );
-                      //   }
-                      // });
                     },
                   ),
                   InkWell(
@@ -191,7 +129,7 @@ class _UserInFoScreenState extends State<UserInFoScreen> {
                   ),
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),

@@ -186,6 +186,9 @@ class _CummunityWritingState extends State<CummunityWriting> {
                       isDense: true,
                       // filled: true,
                     ),
+                    validator: FormBuilderValidators.compose([
+                      FormBuilderValidators.required(errorText: '내용을 입력하세요.')
+                    ]),
                   ),
                 ),
                 const SizedBox(height: 20),

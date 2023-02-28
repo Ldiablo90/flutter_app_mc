@@ -19,15 +19,18 @@ class _InicisCheckScreenState extends State<InicisCheckScreen> {
   bool _serviceCheck = false;
   void _onSubmit() {
     if (_privacyCheck && _serviceCheck) {
-      widget.social().then((LoginModel value) {
-        if (value.type) {
-          context.go('/feed');
-        }
+      widget.social().then((LoginModel loginModel) {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            content: Text(loginModel.messege),
+          ),
+        ).then((value) => loginModel.type ? context.go('/feed') : null);
       });
     } else {
       showDialog(
         context: context,
-        builder: (context) => AlertDialog(
+        builder: (context) => const AlertDialog(
           content: Text('필수 동의사항에 동의해주세요.'),
         ),
       );

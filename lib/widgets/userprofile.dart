@@ -75,7 +75,7 @@ class UserProfile extends StatelessWidget {
                         width: itemwidth,
                         child: Column(
                           children: [
-                            const Text('포인트(에정)'),
+                            const Text('포인트(예정)'),
                             Text('${user.mileage_points}'),
                           ],
                         ),

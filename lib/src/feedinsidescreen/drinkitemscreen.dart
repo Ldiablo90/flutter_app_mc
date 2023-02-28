@@ -38,7 +38,7 @@ class _DrinkItemScreenState extends State<DrinkItemScreen> {
                           children: [
                             DrinkInfo(drink: snapshot.data!),
                             FutureBuilder(
-                              future: FireStoreData.getEntrys(
+                              future: FireStoreData.getEntrysToTypeOrDrink(
                                   id: snapshot.data!.id),
                               builder: (context,
                                   AsyncSnapshot<List<EntryModel>> snapshot) {

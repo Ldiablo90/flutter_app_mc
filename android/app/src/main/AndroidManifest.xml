@@ -43,8 +43,6 @@
                 android:value="@string/client_name" />
             <!-- 네이버 로그인 MetaData end -->
 
-            
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>

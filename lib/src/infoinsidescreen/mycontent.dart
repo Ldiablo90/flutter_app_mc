@@ -1,5 +1,7 @@
+import 'package:auto_animated/auto_animated.dart';
 import 'package:flutter/material.dart';
 import 'package:maccave/firebaseserver/firestoredata.dart';
+import 'package:maccave/widgets/cummunity/cummunityitem.dart';
 import 'package:maccave/widgets/loddinpage.dart';
 import 'package:maccave/widgets/mainappbar.dart';
 import 'package:go_router/go_router.dart';
@@ -54,30 +56,21 @@ class _MyContentScreenState extends State<MyContentScreen> {
                           ],
                         ),
                       ),
-                      Wrap(
-                        alignment: WrapAlignment.spaceBetween,
-                        children: snapshot.data!
-                            .map((cummunity) => InkWell(
-                                  onTap: () {
-                                    context.pushNamed('cummunityread',
-                                        params: {"id": cummunity.id});
-                                  },
-                                  child: Container(
-                                    color: Colors.grey[300],
-                                    width: itemSize,
-                                    height: itemSize,
-                                    child: Center(
-                                      child: Text(
-                                        cummunity.title,
-                                        maxLines: 2,
-                                        overflow: TextOverflow.fade,
-                                        style: const TextStyle(fontSize: 21),
-                                      ),
-                                    ),
-                                  ),
-                                ))
-                            .toList(),
-                      ),
+                      Container(
+                        height: MediaQuery.of(context).size.height * .3,
+                        child: LiveList(
+                            itemBuilder: (context, index, animation) {
+                              return Container(
+                                margin:
+                                    const EdgeInsets.symmetric(horizontal: 20),
+                                child: CummunityItem(
+                                  model: snapshot.data![index],
+                                  animation: animation,
+                                ),
+                              );
+                            },
+                            itemCount: snapshot.data!.length),
+                      )
                     ],
                   );
                 }
@@ -142,19 +135,6 @@ class _MyContentScreenState extends State<MyContentScreen> {
                 return LoadingPage(height: 150);
               },
             ),
-            // Row(
-            //   children: [
-            //     Column(
-            //       children: [
-            //         FutureBuilder(
-            //           builder: (context, snapshot) {
-            //             return LoadingPage(height: 150);
-            //           },
-            //         ),
-            //       ],
-            //     )
-            //   ],
-            // ),
           ],
         ),
       ),

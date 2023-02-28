@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'package:intl/intl.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -28,6 +30,7 @@ class FireStoreData {
   static final _privacysColection = _db.collection('privacys');
   static final _storage = FirebaseStorage.instance;
 
+  // #######################  베너 관련 API STAR ############################
   static Future<List<BannerModel>> getBanners() async {
     List<BannerModel> bannerInstances = [];
     final querySnapshot = await _bannerColection.get();
@@ -37,7 +40,9 @@ class FireStoreData {
         .toList();
     return bannerInstances;
   }
+  // #######################  베너 관련 API END #############################
 
+  // #######################  유저 관련 API START ###########################
   static Future<UserModel> getUser({String? id}) async {
     UserModel userInstances;
     DocumentSnapshot<Map<String, dynamic>> documentSnapshot;
@@ -54,6 +59,7 @@ class FireStoreData {
     throw Error();
   }
 
+  // ######################################################################
   static Future<bool> updateUser(
       {required String id, CroppedFile? cropFile, String? name}) async {
     bool userInstances = false;
@@ -89,6 +95,7 @@ class FireStoreData {
     return userInstances;
   }
 
+  // ######################################################################
   static Future<List<CummunityModel>> getUserOnlyCummunity(String id) async {
     List<CummunityModel> cummunityInstances = [];
     QuerySnapshot<Map<String, dynamic>> querySnapshot =
@@ -102,6 +109,7 @@ class FireStoreData {
     return cummunityInstances;
   }
 
+  // ######################################################################
   static Future<List<GalleryModel>> getUserOnlyGallery(String id) async {
     List<GalleryModel> galleryInstances = [];
     QuerySnapshot<Map<String, dynamic>> querySnapshot =
@@ -115,6 +123,7 @@ class FireStoreData {
     return galleryInstances;
   }
 
+  // ######################################################################
   static Future<List<DrinkModel>> getUserLikeDrinks(
       List<dynamic> likeDrinks) async {
     List<DrinkModel> drinkInstances = [];
@@ -127,8 +136,11 @@ class FireStoreData {
 
     return drinkInstances;
   }
+  // #######################  유저 관련 API END #############################
 
-  static Future<List<EntryModel>> getEntrys({String? type, String? id}) async {
+  // #######################  발매정보 관련 API START ########################
+  static Future<List<EntryModel>> getEntrysToTypeOrDrink(
+      {String? type, String? id}) async {
     List<EntryModel> drinksInstances = [];
     QuerySnapshot<Map<String, dynamic>> querySnapshot;
     try {
@@ -141,7 +153,6 @@ class FireStoreData {
       } else {
         querySnapshot = await _entryColection.get();
       }
-
       drinksInstances = querySnapshot.docs
           .map<EntryModel>(
               (entry) => EntryModel.fromJson({'id': entry.id, ...entry.data()}))
@@ -154,6 +165,39 @@ class FireStoreData {
     }
   }
 
+  // ######################################################################
+  static Future<List<EntryModel>> getEntryTosDate(String releaseType) async {
+    List<EntryModel> entryInstances = [];
+    final defaulttiem = DateTime.now();
+    final today =
+        DateTime(defaulttiem.year, defaulttiem.month, defaulttiem.day);
+    final yesterday = today.subtract(const Duration(days: 1));
+    final tomorrow = today.add(const Duration(days: 1));
+    QuerySnapshot<Map<String, dynamic>> querySnapshot;
+    if (releaseType == 'tomorrow') {
+      querySnapshot = await _entryColection
+          .where('releasedate', isGreaterThan: tomorrow)
+          .orderBy('releasedate', descending: true)
+          .get();
+    } else if (releaseType == 'yesterday') {
+      querySnapshot = await _entryColection
+          .where('releasedate', isLessThan: today)
+          .orderBy('releasedate')
+          .get();
+    } else {
+      querySnapshot = await _entryColection
+          .where('releasedate', isLessThan: tomorrow, isGreaterThan: yesterday)
+          .orderBy('releasedate')
+          .get();
+    }
+    entryInstances = querySnapshot.docs
+        .map<EntryModel>((e) => EntryModel.fromJson({"id": e.id, ...e.data()}))
+        .toList();
+
+    return entryInstances;
+  }
+
+  // ######################################################################
   static Future<EntryModel> getEntryItem(String id) async {
     EntryModel entryItemInstances;
     try {
@@ -172,6 +216,7 @@ class FireStoreData {
     }
     throw Error();
   }
+  // #######################  발매정보 관련 API END ########################
 
   static Future<DrinkModel> getDrinkItem(String? id) async {
     DrinkModel drinkItemInstances;
@@ -387,14 +432,14 @@ class FireStoreData {
   }
 
   static Future<String> _setStorage(String mainpath, XFile xFile) async {
+    print('_setStorage start');
     String url = '';
     final path = '$mainpath/${_auth.currentUser!.uid}/${xFile.name}';
     final file = File(xFile.path);
     final ref = _storage.ref(path);
-    final snapshot = await ref.putFile(
-      file,
-    );
+    final snapshot = await ref.putFile(file);
     url = await snapshot.ref.getDownloadURL();
+    print('_setStorage end');
     return url;
   }
 
@@ -408,11 +453,11 @@ class FireStoreData {
     final createdate = DateTime.now();
     bool galleryInstance = false;
     late Map<String, dynamic> data;
+    print('setGallerys');
     try {
-      data = await Future.wait(images
-              .map((xFile) async => await _setStorage('gallerys', xFile))
-              .toList())
-          .then((urls) {
+      final imageUrls =
+          images.map((e) async => await _setStorage('gallerys', e)).toList();
+      data = await Future.wait(imageUrls).then((urls) {
         return {
           "title": title,
           "images": urls,

@@ -6,6 +6,7 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:maccave/firebaseserver/firestoredata.dart';
 import 'package:maccave/widgets/blackelevatedbtn.dart';
+import 'package:maccave/widgets/galleryimagewrapper.dart';
 import 'package:maccave/widgets/loddinpage.dart';
 import 'package:maccave/widgets/mainappbar.dart';
 import 'package:go_router/go_router.dart';
@@ -40,8 +41,8 @@ class _GalleryWritingState extends State<GalleryWriting> {
       } else {
         _imageFile = response;
       }
-      setState(() {});
     }
+    setState(() {});
   }
 
   void sendGalleryData() async {
@@ -55,7 +56,6 @@ class _GalleryWritingState extends State<GalleryWriting> {
 
   @override
   void dispose() {
-    // Clean up the controller when the widget is disposed.
     _formKey.currentState?.fields.clear();
     super.dispose();
   }
@@ -83,46 +83,95 @@ class _GalleryWritingState extends State<GalleryWriting> {
                     child: Column(
                       children: [
                         const SizedBox(height: 10),
-                        InkWell(
-                          onTap: () {
-                            setImagePicker();
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(5),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.5),
-                                  spreadRadius: 1,
-                                  blurRadius: 5,
-                                  offset: const Offset(3, 3),
-                                ),
-                              ],
-                            ),
-                            width: MediaQuery.of(context).size.width,
-                            height: MediaQuery.of(context).size.height * .5,
-                            child: _imageFile.isNotEmpty
-                                ? CarouselSlider(
-                                    items: _imageFile
-                                        .map((e) => Image.file(File(e.path)))
-                                        .toList(),
-                                    options: CarouselOptions(
-                                      height: MediaQuery.of(context).size.width,
-                                      viewportFraction: 1.0,
-                                      enlargeCenterPage: false,
-                                      enableInfiniteScroll: false,
-                                      scrollPhysics:
-                                          const BouncingScrollPhysics(),
+                        Container(
+                          child: _imageFile.isNotEmpty
+                              ? Column(
+                                  children: [
+                                    SizedBox(
+                                      width: MediaQuery.of(context).size.width -
+                                          40,
+                                      child: CarouselSlider(
+                                        items: _imageFile
+                                            .map((e) => Image.file(
+                                                  File(e.path),
+                                                  fit: BoxFit.contain,
+                                                ))
+                                            .toList(),
+                                        options: CarouselOptions(
+                                          aspectRatio: 1 / 1,
+                                          viewportFraction: .5,
+                                          enlargeCenterPage: true,
+                                          enableInfiniteScroll: false,
+                                          scrollPhysics:
+                                              const BouncingScrollPhysics(),
+                                        ),
+                                      ),
                                     ),
-                                  )
-                                : const Icon(
-                                    Icons.add_a_photo_outlined,
-                                    size: 36,
-                                    color: Colors.grey,
+                                    const SizedBox(height: 10),
+                                    Row(
+                                      children: [
+                                        ..._imageFile
+                                            .map(
+                                              (e) => InkWell(
+                                                child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            right: 10),
+                                                    child: GalleryImageWrapper(
+                                                        width: 40,
+                                                        height: 40,
+                                                        child: Image.file(
+                                                            File(e.path),
+                                                            fit: BoxFit
+                                                                .contain))),
+                                              ),
+                                            )
+                                            .toList(),
+                                        InkWell(
+                                          onTap: () {
+                                            setImagePicker();
+                                          },
+                                          child: GalleryImageWrapper(
+                                            width: 40,
+                                            height: 40,
+                                            child: const Center(
+                                              child: Icon(
+                                                Icons.add_a_photo_outlined,
+                                                size: 18,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 10),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          "사진은 최대 3장까지 선택 가능합니다.",
+                                          style: TextStyle(fontSize: 10),
+                                        )
+                                      ],
+                                    )
+                                  ],
+                                )
+                              : InkWell(
+                                  onTap: () {
+                                    setImagePicker();
+                                  },
+                                  child: GalleryImageWrapper(
+                                    width: MediaQuery.of(context).size.width,
+                                    height:
+                                        MediaQuery.of(context).size.height * .5,
+                                    child: const Icon(
+                                      Icons.add_a_photo_outlined,
+                                      size: 36,
+                                      color: Colors.grey,
+                                    ),
                                   ),
-                          ),
+                                ),
                         ),
+                        const SizedBox(height: 10),
                         const SizedBox(height: 10),
                         Container(
                           height: MediaQuery.of(context).size.height * .2,

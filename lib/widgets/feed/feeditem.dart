@@ -67,7 +67,7 @@ class _FeedItemState extends State<FeedItem> {
             ),
             padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 16),
             child: InkWell(
-              onDoubleTap: () {
+              onTap: () {
                 context.pushNamed(
                   'drinkitem',
                   params: {"id": drink.id, 'title': drink.name},

@@ -61,126 +61,126 @@ class _SignInScreenState extends State<SignInScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 50),
               child: Column(
                 children: [
-                  FormBuilder(
-                    key: _formKey,
-                    onChanged: () {
-                      _formKey.currentState!.save();
-                    },
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('이메일 주소'),
-                        FormBuilderTextField(
-                          controller: emailValue,
-                          name: 'email',
-                          decoration: InputDecoration(
-                            errorStyle: const TextStyle(height: 0),
-                            suffixIcon: _emailHasError
-                                ? const Icon(Icons.error, color: Colors.red)
-                                : const Icon(
-                                    Icons.check,
-                                    color: Colors.blue,
-                                  ),
-                            isDense: true,
-                            contentPadding: const EdgeInsets.all(10),
-                            border: const OutlineInputBorder(
-                              borderRadius: BorderRadius.zero,
-                            ),
-                          ),
-                          onChanged: (value) {
-                            setState(() {
-                              _emailHasError = !(_formKey
-                                      .currentState?.fields['email']
-                                      ?.validate() ??
-                                  false);
-                            });
-                          },
-                          validator: FormBuilderValidators.compose([
-                            FormBuilderValidators.email(errorText: ''),
-                          ]),
-                        ),
-                        const SizedBox(
-                          height: 15,
-                        ),
-                        Text('비밀번호'),
-                        FormBuilderTextField(
-                          name: 'password',
-                          controller: passValue,
-                          obscureText: true,
-                          decoration: InputDecoration(
-                            errorStyle: const TextStyle(height: 0),
-                            suffixIcon: _passHasError
-                                ? const Icon(Icons.error, color: Colors.red)
-                                : const Icon(
-                                    Icons.check,
-                                    color: Colors.blue,
-                                  ),
-                            isDense: true,
-                            contentPadding: const EdgeInsets.all(10),
-                            border: const OutlineInputBorder(
-                              borderRadius: BorderRadius.zero,
-                            ),
-                          ),
-                          onChanged: (value) {
-                            setState(() {
-                              _passHasError = !(_formKey
-                                      .currentState?.fields['password']
-                                      ?.validate() ??
-                                  false);
-                            });
-                          },
-                          validator: FormBuilderValidators.compose([
-                            FormBuilderValidators.minLength(1, errorText: ''),
-                            FormBuilderValidators.minLength(8, errorText: ''),
-                          ]),
-                        ),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width,
-                          child: ElevatedButton(
-                            child: const Text('로그인'),
-                            onPressed: () async {
-                              if (_formKey.currentState!.validate() &&
-                                  _formKey.currentState!.value['email']
-                                          .toString()
-                                          .length >
-                                      1) {
-                                CustomAuth.signInEmailAndPass(
-                                  _formKey.currentState!.value['email'],
-                                  _formKey.currentState!.value['password'],
-                                ).then(
-                                  (model) => {
-                                    showDialog(
-                                      context: context,
-                                      barrierDismissible: true,
-                                      builder: (context) {
-                                        return AlertDialog(
-                                          content: Text(model.messege),
-                                        );
-                                      },
-                                    ).then(
-                                      (value) => {
-                                        if (model.type) {context.go('/feed')}
-                                      },
-                                    )
-                                  },
-                                );
-                              } else {
-                                showDialog(
-                                  context: context,
-                                  barrierDismissible: true,
-                                  builder: (context) {
-                                    return const AlertDialog(
-                                      content: Text('정보를 입력해주세요'),
-                                    );
-                                  },
-                                );
-                              }
-                            },
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
+                  // FormBuilder(
+                  //   key: _formKey,
+                  //   onChanged: () {
+                  //     _formKey.currentState!.save();
+                  //   },
+                  //   child: Column(
+                  //     crossAxisAlignment: CrossAxisAlignment.start,
+                  //     children: [
+                  //       Text('이메일 주소'),
+                  //       FormBuilderTextField(
+                  //         controller: emailValue,
+                  //         name: 'email',
+                  //         decoration: InputDecoration(
+                  //           errorStyle: const TextStyle(height: 0),
+                  //           suffixIcon: _emailHasError
+                  //               ? const Icon(Icons.error, color: Colors.red)
+                  //               : const Icon(
+                  //                   Icons.check,
+                  //                   color: Colors.blue,
+                  //                 ),
+                  //           isDense: true,
+                  //           contentPadding: const EdgeInsets.all(10),
+                  //           border: const OutlineInputBorder(
+                  //             borderRadius: BorderRadius.zero,
+                  //           ),
+                  //         ),
+                  //         onChanged: (value) {
+                  //           setState(() {
+                  //             _emailHasError = !(_formKey
+                  //                     .currentState?.fields['email']
+                  //                     ?.validate() ??
+                  //                 false);
+                  //           });
+                  //         },
+                  //         validator: FormBuilderValidators.compose([
+                  //           FormBuilderValidators.email(errorText: ''),
+                  //         ]),
+                  //       ),
+                  //       const SizedBox(
+                  //         height: 15,
+                  //       ),
+                  //       Text('비밀번호'),
+                  //       FormBuilderTextField(
+                  //         name: 'password',
+                  //         controller: passValue,
+                  //         obscureText: true,
+                  //         decoration: InputDecoration(
+                  //           errorStyle: const TextStyle(height: 0),
+                  //           suffixIcon: _passHasError
+                  //               ? const Icon(Icons.error, color: Colors.red)
+                  //               : const Icon(
+                  //                   Icons.check,
+                  //                   color: Colors.blue,
+                  //                 ),
+                  //           isDense: true,
+                  //           contentPadding: const EdgeInsets.all(10),
+                  //           border: const OutlineInputBorder(
+                  //             borderRadius: BorderRadius.zero,
+                  //           ),
+                  //         ),
+                  //         onChanged: (value) {
+                  //           setState(() {
+                  //             _passHasError = !(_formKey
+                  //                     .currentState?.fields['password']
+                  //                     ?.validate() ??
+                  //                 false);
+                  //           });
+                  //         },
+                  //         validator: FormBuilderValidators.compose([
+                  //           FormBuilderValidators.minLength(1, errorText: ''),
+                  //           FormBuilderValidators.minLength(8, errorText: ''),
+                  //         ]),
+                  //       ),
+                  //       SizedBox(
+                  //         width: MediaQuery.of(context).size.width,
+                  //         child: ElevatedButton(
+                  //           child: const Text('로그인'),
+                  //           onPressed: () async {
+                  //             if (_formKey.currentState!.validate() &&
+                  //                 _formKey.currentState!.value['email']
+                  //                         .toString()
+                  //                         .length >
+                  //                     1) {
+                  //               CustomAuth.signInEmailAndPass(
+                  //                 _formKey.currentState!.value['email'],
+                  //                 _formKey.currentState!.value['password'],
+                  //               ).then(
+                  //                 (model) => {
+                  //                   showDialog(
+                  //                     context: context,
+                  //                     barrierDismissible: true,
+                  //                     builder: (context) {
+                  //                       return AlertDialog(
+                  //                         content: Text(model.messege),
+                  //                       );
+                  //                     },
+                  //                   ).then(
+                  //                     (value) => {
+                  //                       if (model.type) {context.go('/feed')}
+                  //                     },
+                  //                   )
+                  //                 },
+                  //               );
+                  //             } else {
+                  //               showDialog(
+                  //                 context: context,
+                  //                 barrierDismissible: true,
+                  //                 builder: (context) {
+                  //                   return const AlertDialog(
+                  //                     content: Text('정보를 입력해주세요'),
+                  //                   );
+                  //                 },
+                  //               );
+                  //             }
+                  //           },
+                  //         ),
+                  //       )
+                  //     ],
+                  //   ),
+                  // ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [

@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/foundation.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:go_router/go_router.dart';
 import 'package:maccave/firebase_options.dart';
@@ -17,7 +17,7 @@ import 'package:maccave/src/feedinsidescreen/entrylistscreen.dart';
 import 'package:maccave/src/galleryscreen/galleryreading.dart';
 import 'package:maccave/src/galleryscreen/gallerywriting.dart';
 import 'package:maccave/src/galleryscreen/gelleryedit.dart';
-import 'package:maccave/src/galleryscreen/imgpickerex.dart';
+
 import 'package:maccave/src/gallrey.dart';
 import 'package:maccave/src/infoinsidescreen/announcement.dart';
 import 'package:maccave/src/infoinsidescreen/askquestions.dart';
@@ -28,7 +28,7 @@ import 'package:maccave/src/infoinsidescreen/oneononeinquiry.dart';
 import 'package:maccave/src/infoinsidescreen/serviceconditions.dart';
 import 'package:maccave/src/infoinsidescreen/useredit.dart';
 import 'package:maccave/src/infomation.dart';
-import 'package:maccave/src/defaultinsidescreen/register.dart';
+
 import 'package:maccave/src/maccavemain.dart';
 import 'package:maccave/src/raffle.dart';
 import 'package:maccave/widgets/mainnavigation.dart';
@@ -42,9 +42,7 @@ Future<void> main() async {
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  KakaoSdk.init(
-    nativeAppKey: 'cb28f38ddf8ac43ca8e402a937f9b0b2',
-  );
+  KakaoSdk.init(nativeAppKey: 'cb28f38ddf8ac43ca8e402a937f9b0b2');
   runApp(const MyApp());
 }
 

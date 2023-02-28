@@ -44,7 +44,7 @@ class SosialLoginWidget extends StatelessWidget {
             width: iconwidth,
             child: InkWell(
               child: Image.asset(
-                'assets/kakaologo.png',
+                'assets/facebooklogo.png',
                 fit: BoxFit.cover,
               ),
               onTap: () {

@@ -1,10 +1,14 @@
+import 'package:advanced_datatable/advanced_datatable_source.dart';
+import 'package:advanced_datatable/datatable.dart';
+import 'package:auto_animated/auto_animated.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:maccave/firebaseserver/firestoredata.dart';
 import 'package:maccave/models/cummunitymodel.dart';
-import 'package:maccave/widgets/blackelevatedbtn.dart';
+import 'package:maccave/widgets/cummunity/cummunityitem.dart';
+
 import 'package:maccave/widgets/loddinpage.dart';
 import 'package:maccave/widgets/mainappbar.dart';
 
@@ -38,22 +42,23 @@ class _CommunityScreenState extends State<CommunityScreen> {
     super.dispose();
   }
 
-  String dateChange(DateTime createdate) {
-    final timeNow = DateTime.now();
-    String result = '';
-    if (timeNow.difference(createdate).inHours >= 24) {
-      result = DateFormat('yy.MM.dd').format(createdate);
-    } else {
-      result = DateFormat('HH:mm').format(createdate);
-    }
-
-    return result;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(apptitle: '커뮤니티', center: true),
+      floatingActionButton: SizedBox(
+        width: 50,
+        height: 50,
+        child: FittedBox(
+          child: FloatingActionButton(
+            onPressed: () {
+              context.push('/community/writing');
+            },
+            backgroundColor: Colors.black,
+            child: const Icon(Icons.add),
+          ),
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
@@ -68,11 +73,9 @@ class _CommunityScreenState extends State<CommunityScreen> {
                     .map(
                       (tab) => InkWell(
                         onTap: () {
-                          setState(() {
-                            type = tab.value;
-                            selectIndex = tab.key;
-                            startitem = 0;
-                          });
+                          type = tab.value;
+                          selectIndex = tab.key;
+                          setState(() {});
                         },
                         child: Container(
                           margin: const EdgeInsets.symmetric(horizontal: 5),
@@ -107,166 +110,50 @@ class _CommunityScreenState extends State<CommunityScreen> {
                     .toList(),
               ),
             ),
-            const Divider(color: Colors.black),
+            SizedBox(
+              height: 15,
+            ),
             FutureBuilder(
               future: FireStoreData.getCummunitys(type),
               builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return SingleChildScrollView(
-                    child: PaginatedDataTable(
-                      horizontalMargin: 0,
-                      columnSpacing: 10,
-                      dataRowHeight: 30,
-                      headingRowHeight: 30,
-                      showCheckboxColumn: false,
-                      columns: const <DataColumn>[
-                        DataColumn(label: Center(child: Text('번호'))),
-                        DataColumn(label: Center(child: Text('제목'))),
-                        DataColumn(label: Center(child: Text('일자'))),
-                      ],
-                      source: MyData(
-                          data: snapshot.data!.asMap().entries.toList(),
-                          context: context),
+                if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+                  return Expanded(
+                    child: LiveList(
+                      itemCount: snapshot.data!.length,
+                      itemBuilder: (context, index, animation) => CummunityItem(
+                        animation: animation,
+                        model: snapshot.data![index],
+                      ),
                     ),
-                    // child: DataTable(
-                    //   horizontalMargin: 0,
-                    //   columnSpacing: 10,
-                    //   dataRowHeight: 30,
-                    //   headingRowHeight: 30,
-                    //   showCheckboxColumn: false,
-                    //   columns: const <DataColumn>[
-                    //     DataColumn(label: Center(child: Text('번호'))),
-                    //     DataColumn(label: Center(child: Text('제목'))),
-                    //     DataColumn(label: Center(child: Text('일자'))),
-                    //   ],
-                    //   rows: <DataRow>[
-                    //     ...snapshot.data!.asMap().entries.map<DataRow>(
-                    //           (cummu) => DataRow(
-                    //             onSelectChanged: (value) {
-                    //               context.pushNamed('cummunityread',
-                    //                   params: {"id": cummu.value.id});
-                    //             },
-                    //             cells: [
-                    //               DataCell(Center(
-                    //                 child: Text(
-                    //                     '${snapshot.data!.length - cummu.key}'),
-                    //               )),
-                    //               DataCell(
-                    //                 SizedBox(
-                    //                     width:
-                    //                         MediaQuery.of(context).size.width *
-                    //                             .60,
-                    //                     child: Row(
-                    //                       mainAxisAlignment:
-                    //                           MainAxisAlignment.spaceBetween,
-                    //                       children: [
-                    //                         Text(cummu.value.title),
-                    //                         FutureBuilder(
-                    //                           future: FireStoreData
-                    //                               .getCommentsCount(
-                    //                                   cummu.value.id),
-                    //                           builder:
-                    //                               (context, commentsnapshot) {
-                    //                             if (commentsnapshot.hasData &&
-                    //                                 commentsnapshot.data! > 0) {
-                    //                               return Padding(
-                    //                                 padding: const EdgeInsets
-                    //                                         .symmetric(
-                    //                                     horizontal: 5),
-                    //                                 child: Text(
-                    //                                     '(${commentsnapshot.data!})'),
-                    //                               );
-                    //                             }
-                    //                             return const Text('');
-                    //                           },
-                    //                         ),
-                    //                       ],
-                    //                     )),
-                    //               ),
-                    //               DataCell(
-                    //                   Text(dateChange(cummu.value.createdate))),
-                    //             ],
-                    //           ),
-                    //         ),
-                    //   ],
-                    // ),
+                  );
+                } else if (snapshot.hasData && snapshot.data!.isEmpty) {
+                  return Container(
+                    margin: EdgeInsets.only(top: 5),
+                    width: MediaQuery.of(context).size.width,
+                    height: 80,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(5),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(.5),
+                          blurRadius: 2,
+                          spreadRadius: 1,
+                          offset: Offset(1, 1),
+                        ),
+                      ],
+                    ),
+                    child: Center(
+                      child: Text('새로운 소식을 알려주세요.'),
+                    ),
                   );
                 }
                 return LoadingPage(height: 200);
               },
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  MacCaveElevatedButton(
-                    onPressed: () {
-                      context.push('/community/writing');
-                    },
-                    child: const Text('글쓰기'),
-                  ),
-                ],
-              ),
-            )
           ],
         ),
       ),
     );
-  }
-}
-
-class MyData extends DataTableSource {
-  MyData({required this.data, required this.context}) : super();
-  List<MapEntry<int, CummunityModel>> data;
-  BuildContext context;
-  // Generate some made-up data
-  // final List<Map<String, dynamic>> _data = List.generate(
-  //     200, (index) => {"id": index, "title": "Item $index", "price": 15000});
-
-  @override
-  bool get isRowCountApproximate => false;
-  @override
-  int get rowCount => data.length;
-  @override
-  int get selectedRowCount => 0;
-  @override
-  DataRow getRow(int index) {
-    return DataRow(
-        onSelectChanged: (value) {
-          context
-              .pushNamed('cummunityread', params: {"id": data[index].value.id});
-        },
-        cells: [
-          DataCell(Center(
-            child: Text('${data.length - data[index].key}'),
-          )),
-          DataCell(
-            SizedBox(
-                width: MediaQuery.of(context).size.width * 0.60,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(data[index].value.title),
-                    FutureBuilder(
-                      future:
-                          FireStoreData.getCommentsCount(data[index].value.id),
-                      builder: (context, commentsnapshot) {
-                        if (commentsnapshot.hasData &&
-                            commentsnapshot.data! > 0) {
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 5),
-                            child: Text('(${commentsnapshot.data!})'),
-                          );
-                        }
-                        return const Text('');
-                      },
-                    ),
-                  ],
-                )),
-          ),
-          DataCell(Text(
-              DateFormat('yy.MM.dd').format(data[index].value.createdate))),
-        ]);
   }
 }
