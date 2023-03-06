@@ -44,7 +44,7 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyBoYdVIHqjRUBKvttomU0t6kVkayQMV35U',
+    apiKey: '',
     appId: '1:1038660924416:web:bd288744c3face003a14e5',
     messagingSenderId: '1038660924416',
     projectId: 'maccaveapp',
@@ -54,7 +54,7 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyADdkN8zl5lQv-njhTJjCyZpMCm8UweyPY',
+    apiKey: '',
     appId: '1:1038660924416:android:087a735d715922633a14e5',
     messagingSenderId: '1038660924416',
     projectId: 'maccaveapp',
@@ -62,7 +62,7 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBJ6VWnjrhvqj13UURn5fjjKWAvKYzkKHQ',
+    apiKey: '',
     appId: '1:1038660924416:ios:66f19c96bdd40bd33a14e5',
     messagingSenderId: '1038660924416',
     projectId: 'maccaveapp',
@@ -72,7 +72,7 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyBJ6VWnjrhvqj13UURn5fjjKWAvKYzkKHQ',
+    apiKey: '',
     appId: '1:1038660924416:ios:66f19c96bdd40bd33a14e5',
     messagingSenderId: '1038660924416',
     projectId: 'maccaveapp',
