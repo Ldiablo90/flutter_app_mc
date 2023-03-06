@@ -56,7 +56,7 @@
                 <!-- "kakao${YOUR_NATIVE_APP_KEY}://${PRODUCT_NAME}" 형식의 앱 실행 스킴 설정 -->
                 <!-- 카카오톡 공유, 카카오톡 메시지 -->
                 <data android:host="kakaolink"
-                    android:scheme="kakaocb28f38ddf8ac43ca8e402a937f9b0b2" />
+                    android:scheme="" />
                 <data android:scheme="@string/fb_login_protocol_scheme" />
                 
             </intent-filter>
