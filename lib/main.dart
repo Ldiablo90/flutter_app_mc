@@ -42,7 +42,7 @@ Future<void> main() async {
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  KakaoSdk.init(nativeAppKey: 'cb28f38ddf8ac43ca8e402a937f9b0b2');
+  KakaoSdk.init(nativeAppKey: '');
   runApp(const MyApp());
 }
 
